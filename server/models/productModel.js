@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema(
   {
-    productPic: { type: Array, required: true },
+    productPic: { type: String, required: true },
     product_name: { type: String, required: true },
     short_description: { type: String, required: true },
     display_moq: { type: String, required: true },

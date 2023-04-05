@@ -58,16 +58,18 @@
       <div
         class="d-flex justify-content-start mb-1"
         v-for="(product, index) in allCategories"
-        @click="productsByCategory(product._id)"
         :key="product"
       >
         <div class="d-flex" v-if="index < limit_by" style="cursor: pointer">
-          <span class="px-2" @click="toggleCheckbox" :key="product">
+          <span class="px-2">
+            <!-- @click="toggleCheckbox" -->
+            <!-- @click="productsByCategory(product._id)" :key="product" -->
             <input
               type="checkbox"
-              :value="product.category"
+              :value="product._id"
               v-model="checkedItems"
-              @click="updateCheckedItems(product.category)"
+              @change="updateCheckedItems(product._id)"
+              style="cursor: pointer;"
             />
           </span>
           <span class="">
@@ -100,7 +102,7 @@ export default {
   },
 
   setup() {
-    const showMore = ref(false);
+    // const showMore = ref(false);
     const default_limit = ref(3);
     const limit_by = ref(3);
     const minPrice = ref(0);
@@ -133,18 +135,24 @@ export default {
       }
     },
 
-    updateCheckedItems(item) {
-      const isChecked = this.checkedItems.includes(item);
-      console.log("item--------->", isChecked);
+    updateCheckedItems() {
+      const checkedId=this.checkedItems
+       console.log("checkedId", checkedId)
+      this.productsByCategory(checkedId)
+    
+      // const isChecked = this.checkedItems.includes(item);
+      // console.log("item--------->", isChecked, item);
 
-      if (isChecked) {
-        this.checkedItems = this.checkedItems.filter(
-          (checkedItem) => checkedItem !== item
-        );
-        this.fetchProducts();
-      } else {
-        this.checkedItems.push(item);
-      }
+      // if (isChecked) {
+      //   this.checkedItems = this.checkedItems.filter(
+      //     (checkedItem) => checkedItem !== item
+      //   );
+      
+      //   this.fetchProducts();
+        
+      // } else {
+      //   this.checkedItems.push(item);
+      // }
     },
   },
   computed: {

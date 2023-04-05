@@ -8,6 +8,7 @@
         class="fa-2x px-3 py-1"
         @click="handleToggleColumn"
         :class="{ colorChange: !toggleShowRow }"
+        style="cursor: pointer;"
       />
       <!-- :class="{colorChange:toggleShowColumn}" -->
       <font-awesome-icon
@@ -15,6 +16,7 @@
         class="fa-2x px-3 py-1"
         @click="handleToggleRow"
         :class="{ colorChange: toggleShowRow }"
+        style="cursor: pointer;"
       />
     </div>
     <div class="col-md-6 col-sm-12 d-flex justify-content-end flex-wrap">
@@ -27,13 +29,14 @@
           placeholder="Relevance"
             @change="filterProducts($event)"
             style="border: none; width: 100%; background: #eee; cursor: pointer;"
+            class="sel"
           >
          
-            <option class="mt-5" value="Relevance" disabled>Relevance</option>
-            <option value="Latest">Latest</option>
-            <option value="Sort By Name">Sort By Name</option>
-            <option value="Low to High">Low to High</option>
-            <option value="High to Low">High to Low</option>
+            <option class="mt-5 px-2" value="Relevance" disabled>Relevance</option>
+            <option value="Latest" class="px-2">Latest</option>
+            <option value="Sort By Name" class="px-2">Sort By Name</option>
+            <option value="Low to High" class="px-2">Low to High</option>
+            <option value="High to Low" class="px-2">High to Low</option>
         
           </select>
         </div>
@@ -42,7 +45,7 @@
           <span class="d-flex mt-2 justify-content-start border iconBox">
             <font-awesome-icon
               icon="fa-solid fa-chevron-left"
-              class=" d-flex m-auto justify-content-center"
+              class=" d-flex m-auto text-dark justify-content-center"
               @click="handleCountSubtract()"
             />
           </span>
@@ -60,7 +63,7 @@
           <span class="d-flex justify-content-end mt-2 border iconBox">
             <font-awesome-icon
               icon="fa-solid fa-chevron-right"
-              class="d-flex m-auto justify-content-center"
+              class="d-flex text-dark m-auto justify-content-center"
               @click="handleCountAdd()"
             />
           </span>
@@ -111,21 +114,23 @@
     <div
       class="card m-2 p-2 mb-3  myCard d-flex justify-content-start mt-3 "
       v-for="product in _filter"
-      style="width: 20.7rem; height: auto"
+      style="width: 20.7rem; height: auto;"
       @mouseover="hov = true"
       @mouseleave="hov = false"
       v-else="toggleShowRow"
     >
       <img
         class=" card-img-top p-2 d-flex m-auto justify-content-center align-items-center col-md-12 col-sm-12"
-      
-        :src="getImageUrl(product)"
+      src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
+       
       />
+      <!-- :src="getImageUrl(product)" -->
+      
       <p class="title">{{ product.product_name }}</p>
       <p class="moq">MOQ: {{ product.display_moq }} Pieces</p>
       <h6 class="price fw-bold pb-3">$ {{ product.price }} /piece</h6>
-      <div class="mydivoutermulti d-flex justify-content-center">
-        <button type="button" class="buttonoverlapmulti btn btn-info">
+      <div class="mydivoutermulti d-flex justify-content-center" @click="setCartProducts(product)">
+        <button type="button" class="buttonoverlapmulti btn btn-info" style="border-radius: 10px;">
           Add To Cart
         </button>
       </div>
@@ -144,6 +149,8 @@ import { ref } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { serverURL } from "@/common/apis";
 
+
+
 export default {
   // props: ["products"],
   data() {
@@ -161,13 +168,16 @@ export default {
     const hov = ref(false);
     const toggleShowRow = ref(false);
     const toggleShowColumn = ref(false);
-
     const cateSelect = ref("Relevance");
+    
+
 
     const handleToggleRow = () => {
       toggleShowRow.value = true;
       toggleShowColumn.value = false;
     };
+
+    
     const handleToggleColumn = () => {
       toggleShowRow.value = false;
       toggleShowColumn.value = true;
@@ -183,7 +193,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchProducts", "filterProducts"]),
+    ...mapActions(["fetchProducts", "filterProducts","setCartProducts"]),
 
     handlePagination() {
       this.indexOfLastPost = this.currentPage * this.postsPerPage;
@@ -217,7 +227,7 @@ export default {
       }
     },
     getImageUrl(item) {
-      return serverURL+item.productPic[1];
+      return serverURL+item.productPic;
     }
   },
   computed: { ...mapGetters(["allProducts"]) },
@@ -379,6 +389,9 @@ div.a {
   text-align: center;
 }
 @media (min-width: 0px) and (max-width: 767px) {
+  /* .sel{
+    width: 40%!important;
+  } */
   .myCard{
     display: flex !important;
     justify-content: center !important;

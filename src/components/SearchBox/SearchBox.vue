@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid d-flex m-auto row myCont" style="background: #eee; width: 76%">
+  <div class="container-fluid d-flex m-auto row myCont p-1" style="background: #eee; width: 76%; border-radius: 10px;">
     <div class="cateSec col-md-1 col-sm-12 d-flex m-auto" style="width:12%">
       <div
         class="d-flex justify-content-start"
@@ -15,13 +15,13 @@
     </div>
     <div class="inputSec col-md-10 col-sm-12 d-flex text-center p-2" style="width:56vw">
       <div
-        class="input-group rounded-pill bg-white"
+        class="input-group rounded-pill bg-white "
         style="border: 1px solid #ddd;"
       >
         <input
           type="text"
-          class="form-control m-2"
-          placeholder="What are you looking for?"
+          class="form-control m-2 p-1"
+          placeholder="    What are you looking for?"
           style="border: none"
           v-model="search"
         />
@@ -56,7 +56,7 @@
 
 <script>
 import { ref } from "vue";
-import Drawer from "./Drawer.vue";
+import Drawer from "../Drawer/Drawer.vue";
 import {mapGetters, mapActions} from "vuex"
 export default {
   components: {

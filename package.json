@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "env-cmd -f .env vue-cli-service serve",
+    "build": "env-cmd -f .env vue-cli-service build"
   },
   "dependencies": {
+    "@formkit/vue": "^0.16.4",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-brands-svg-icons": "^6.3.0",
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
@@ -16,13 +17,22 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "formkit": "^0.16.4",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
+    "mdb-ui-kit": "^6.2.0",
+    "validatorjs": "^3.22.1",
+    "vee-validate": "^4.8.4",
     "vue": "^3.2.47",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.2"
+    "vue3-toastify": "^0.1.6",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-service": "~5.0.0"
+    "@vue/cli-service": "~5.0.0",
+    "env-cmd": "^10.1.0"
   }
 }

@@ -1,5 +1,5 @@
 
 module.exports = {
-    mongoURI:"mongodb+srv://subhan:pCIwoawsFJPlxRaW@cluster0.5ktxj.mongodb.net/buyhive?retryWrites=true",
-    jwtSecret: "mySecretToken",
+    mongoURI:process.env.MONGODB_URI,
+    jwtSecret: process.env.jwtSecret,
   };

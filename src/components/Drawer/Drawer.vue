@@ -6,7 +6,7 @@
         <ul class="ul1 p-2" v-for="(cate ,index ) in allCategories">
           <a class="pb-2 border-none d-flex justify-content-start" style="font-size: 0.875rem; text-decoration: none; color:#080808;font-weight: 600;">{{ cate.category }}</a>
 
-          <li v-for="sub in cate.subCategory "  class=" li-hover d-flex justify-content-start" style="font-size: 0.75rem; padding-top: 0.25rem;">
+          <li v-for="sub in cate.subCategory " :key="sub.subCategory" class=" li-hover d-flex justify-content-start" style="font-size: 0.75rem; padding-top: 0.25rem;">
          
               {{ sub.subCategory }}
            
@@ -320,6 +320,7 @@ ul li a:hover {
   display: flex;
   justify-content: start;
   overflow: auto;
+  border-radius: 10px;
 }
 
 /* .div-absolute1 {

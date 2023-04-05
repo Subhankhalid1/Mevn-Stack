@@ -1,14 +1,23 @@
 
 
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav> -->
+<Header/>
+<SearchBox/>
   <router-view/>
 </template>
 
+<script>
+import Header from "./components/Header/Header.vue";
+import SearchBox from "./components/SearchBox/SearchBox.vue"
 
+export default {
+components: {
+  Header,
+  SearchBox
+},
+
+}
+</script>
 
 <style>
 #app {
@@ -19,7 +28,7 @@
   color:RGB(35, 31, 32);
 }
 
-nav {
+/* nav {
   padding: 30px;
 }
 
@@ -31,5 +40,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
-const { mongoURI } = require("./keys");
+// const { mongoURI } = require("./keys");
 
 const mongoConnect = () => {
+     const mongoDBUrl=process.env.MONGODB_URI
     try {
-        mongoose.connect(mongoURI, {
+        mongoose.connect(mongoDBUrl, {
             // useNewUrlParser: true,
              useUnifiedTopology: true,
             // useCreateIndex: true,
