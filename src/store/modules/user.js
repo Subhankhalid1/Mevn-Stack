@@ -1,8 +1,6 @@
 
 import { register, login } from "@/services/user";
 
-
-
 const state = {
   user:null,
   token:"",
@@ -13,6 +11,7 @@ const getters = {
   };
 
 const actions = {
+  
 
     async registerUser({ commit }, user) {
         const response = await register(user);

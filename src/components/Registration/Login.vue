@@ -190,9 +190,6 @@
           ></path>
         </g>
       </svg>
-                  <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                    style="width: 185px;" alt="logo"/> -->
-                  <!-- <h4 class="mt-1 mb-5 pb-1">We are The BuyHive Team</h4> -->
                 </div>
 
                 <form class="mt-3" type="form" @submit.prevent="submitLoginForm">
@@ -223,8 +220,8 @@
                   </div>
 
                 </form>
-{{   this.u_token }}
-<!-- {{ this.userInfo }} -->
+<!-- {{   this.u_token }} -->
+
               </div>
             </div>
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
@@ -244,13 +241,19 @@
 </template>
 
 <script>
-import { mapGetters, mapActions,mapState, useStore } from "vuex";
-
+import { mapGetters, mapActions,mapState } from "vuex";
+import { useRouter } from 'vue-router';
 export default {
+  created() {
+    const router = useRouter();
+    this.router = router;
+  },
   data() {
+   
     return {
       email: '',
-      password: ''
+      password: '',
+      
     }
   },
   methods: {
@@ -271,6 +274,7 @@ export default {
    
       this.email="";
       this.password="";
+      this.router.push({ name: 'home' });
       // this.fetchCartData(this.u_token)
     
     }
@@ -281,11 +285,6 @@ export default {
     ...mapState(["token"])
     
 
-  },
-  watch:{
-    userInfo(newVal){
-      this.postCartData(newVal)
-    }
   }
  
 

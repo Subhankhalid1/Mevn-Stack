@@ -10,11 +10,16 @@
 import Header from "./components/Header/Header.vue";
 import SearchBox from "./components/SearchBox/SearchBox.vue"
 
+
 export default {
 components: {
   Header,
   SearchBox
 },
+
+  
+ 
+ 
 
 }
 </script>

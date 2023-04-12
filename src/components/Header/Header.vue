@@ -247,7 +247,17 @@
           </li>
         </ul>
         <div class="d-flex justify-content-end">
-          <div class="submit m-2 p-2">
+          <div v-if="u_token" class="submit m-2 p-2">
+            <router-link to="/favourite">
+              <button class="d-flex">
+                <font-awesome-icon
+                  icon="fa-heart"
+                  class="text-gray-300 d-flex m-1"
+                />
+                Wishlist</button>
+            </router-link>
+          </div>
+          <div  v-else  class="submit m-2 p-2">
             <router-link to="/signup">
               <button>Register</button>
             </router-link>
@@ -284,7 +294,7 @@
               />
             </router-link>
             <span class="badge badge-warning mt-4" id="lblCartCount">
-              {{ allCartProducts.length }}
+              {{ allCartProducts.length}}
             </span>
           </div>
         </div>

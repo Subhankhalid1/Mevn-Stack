@@ -8,7 +8,7 @@
         class="fa-2x px-3 py-1"
         @click="handleToggleColumn"
         :class="{ colorChange: !toggleShowRow }"
-        style="cursor: pointer;"
+        style="cursor: pointer"
       />
       <!-- :class="{colorChange:toggleShowColumn}" -->
       <font-awesome-icon
@@ -16,7 +16,7 @@
         class="fa-2x px-3 py-1"
         @click="handleToggleRow"
         :class="{ colorChange: toggleShowRow }"
-        style="cursor: pointer;"
+        style="cursor: pointer"
       />
     </div>
     <div class="col-md-6 col-sm-12 d-flex justify-content-end flex-wrap">
@@ -26,18 +26,18 @@
           class="input-group-append m-3 cateComp1 d-flex justify-content-center p-2"
         >
           <select
-          placeholder="Relevance"
+            placeholder="Relevance"
             @change="filterProducts($event)"
-            style="border: none; width: 100%; background: #eee; cursor: pointer;"
+            style="border: none; width: 100%; background: #eee; cursor: pointer"
             class="sel"
           >
-         
-            <option class="mt-5 px-2" value="Relevance" disabled>Relevance</option>
+            <option class="mt-5 px-2" value="Relevance" disabled>
+              Relevance
+            </option>
             <option value="Latest" class="px-2">Latest</option>
             <option value="Sort By Name" class="px-2">Sort By Name</option>
             <option value="Low to High" class="px-2">Low to High</option>
             <option value="High to Low" class="px-2">High to Low</option>
-        
           </select>
         </div>
         <!-- Pagination Sections-->
@@ -45,7 +45,7 @@
           <span class="d-flex mt-2 justify-content-start border iconBox">
             <font-awesome-icon
               icon="fa-solid fa-chevron-left"
-              class=" d-flex m-auto text-dark justify-content-center"
+              class="d-flex m-auto text-dark justify-content-center"
               @click="handleCountSubtract()"
             />
           </span>
@@ -54,7 +54,7 @@
             type="number"
             v-model="currentPage"
             class="text-center p-2 w-25 font-size-small"
-            style="width: 40%; cursor: pointer;"
+            style="width: 40%; cursor: pointer"
             disabled
           />
           <p class="d-flex m-auto text-center">
@@ -88,9 +88,9 @@
       @mouseleave="hov = false"
       v-if="toggleShowRow"
     >
-      <div class=" d-flex col-md-12 col-sm-12">
+      <div class="d-flex col-md-12 col-sm-12">
         <img
-          class=" px-2 py-2 m-2 d-flex justify-content-start col-md-2 col-sm-12"
+          class="px-2 py-2 m-2 d-flex justify-content-start col-md-2 col-sm-12"
           src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
         />
         <div
@@ -112,25 +112,41 @@
     </div>
     <!-- Columns Card -->
     <div
-      class="card m-2 p-2 mb-3  myCard d-flex justify-content-start mt-3 "
+      class="card m-2 p-2 mb-3 myCard d-flex justify-content-start mt-3"
       v-for="product in _filter"
-      style="width: 20.7rem; height: auto;"
+      style="width: 20.7rem; height: auto"
       @mouseover="hov = true"
       @mouseleave="hov = false"
       v-else="toggleShowRow"
     >
       <img
-        class=" card-img-top p-2 d-flex m-auto justify-content-center align-items-center col-md-12 col-sm-12"
-      src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
-       
+        class="card-img-top p-2 d-flex m-auto justify-content-center align-items-center col-md-12 col-sm-12"
+        src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
       />
+
       <!-- :src="getImageUrl(product)" -->
-      
-      <p class="title">{{ product.product_name }}</p>
+      <span class="d-flex justify-content-between"
+        ><p class="title">{{ product.product_name }}</p>
+        <span @click="handleFavouriteList(product)" style="cursor: pointer"
+          ><font-awesome-icon
+            icon="fa-heart"
+            :style="{ color: product.isLiked ? 'red' : 'black' }"
+            class="text-gray-300 fa-2x d-flex m-1"
+          />
+        </span>
+      </span>
+
       <p class="moq">MOQ: {{ product.display_moq }} Pieces</p>
       <h6 class="price fw-bold pb-3">$ {{ product.price }} /piece</h6>
-      <div class="mydivoutermulti d-flex justify-content-center" @click="setCartProducts(product)">
-        <button type="button" class="buttonoverlapmulti btn btn-info" style="border-radius: 10px;">
+      <div
+        class="mydivoutermulti d-flex justify-content-center"
+        @click="handleCartData(product)"
+      >
+        <button
+          type="button"
+          class="buttonoverlapmulti btn btn-info"
+          style="border-radius: 10px"
+        >
           Add To Cart
         </button>
       </div>
@@ -149,8 +165,6 @@ import { ref } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { serverURL } from "@/common/apis";
 
-
-
 export default {
   // props: ["products"],
   data() {
@@ -162,6 +176,7 @@ export default {
       indexOfFirstPost: "",
       count: 1,
       pages: [],
+      isLiked: false,
     };
   },
   setup() {
@@ -169,15 +184,12 @@ export default {
     const toggleShowRow = ref(false);
     const toggleShowColumn = ref(false);
     const cateSelect = ref("Relevance");
-    
-
 
     const handleToggleRow = () => {
       toggleShowRow.value = true;
       toggleShowColumn.value = false;
     };
 
-    
     const handleToggleColumn = () => {
       toggleShowRow.value = false;
       toggleShowColumn.value = true;
@@ -193,7 +205,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchProducts", "filterProducts","setCartProducts"]),
+    ...mapActions([
+      "fetchProducts",
+      "filterProducts",
+      "setCartProducts",
+      "postCartData",
+      "fetchCartData",
+      "postFavData",
+      "removeFavProduct",
+    ]),
 
     handlePagination() {
       this.indexOfLastPost = this.currentPage * this.postsPerPage;
@@ -203,7 +223,6 @@ export default {
         this.indexOfFirstPost,
         this.indexOfLastPost
       );
-      
 
       //   for (const i = this.indexOfFirstPost; i <= this.indexOfLastPost; i++) {
       //   this.pages.push(i)
@@ -212,10 +231,10 @@ export default {
     },
 
     handleCountAdd() {
-      if(this.count<this.allProducts.length/this.postsPerPage){
-      this.count += 1;
-      this.currentPage = this.count;
-      // console.log("count", this.currentPage)
+      if (this.count < this.allProducts.length / this.postsPerPage) {
+        this.count += 1;
+        this.currentPage = this.count;
+        // console.log("count", this.currentPage)
       }
     },
 
@@ -226,14 +245,37 @@ export default {
         // console.log("count", this.currentPage)
       }
     },
+
     getImageUrl(item) {
-      return serverURL+item.productPic;
+      return serverURL + item.productPic;
+    },
+
+    handleCartData(product) {
+      this.postCartData(product);
+
+      this.fetchCartData();
+    },
+    handleFavouriteList(product) {
+      product.isLiked = !product.isLiked;
+     
+      const index=this.allfavProducts.findIndex((item) => item.product._id === product._id)
+      if (index !== -1) {
+        product.isLiked=false
+        this.removeFavProduct(product._id);
+      } else {
+        this.postFavData(product);
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["allProducts", "u_token", "allfavProducts"]),
+    isLiked(){
+      return this.allfavProducts.find((item) => item.product._id === this.product._id)
     }
   },
-  computed: { ...mapGetters(["allProducts"]) },
   created() {
     this.fetchProducts();
-    this.handlePagination()
+    this.handlePagination();
   },
 
   // onMounted(){
@@ -243,6 +285,7 @@ export default {
 </script>
 
 <style scoped>
+
 .iconBox {
   width: 40px;
   height: 40px;
@@ -292,7 +335,7 @@ input[type="number"] {
   height: 40px;
   float: left;
   margin-right: 15px;
-  font-family: Avenir LT Pro,sans-serif!important;
+  font-family: Avenir LT Pro, sans-serif !important;
 }
 .buttonoverlapmulti {
   position: absolute;
@@ -308,7 +351,7 @@ input[type="number"] {
   position: relative;
   width: 100%;
   height: 40px;
-  
+
   /* float: left;
   margin-right: 15px;
   padding: 35px; */
@@ -333,8 +376,7 @@ input[type="number"] {
 }
 .myCard:hover {
   /* border: none; */
-  box-shadow: 0 0 30px rgba(30, 29, 29, 0.2); 
- 
+  box-shadow: 0 0 30px rgba(30, 29, 29, 0.2);
 }
 /* .cont {
   display: inline-block;
@@ -363,7 +405,7 @@ input[type="number"] {
 } */
 
 .title {
-  font-size: 14px;
+  font-size: 18px;
   font-family: sans-serif;
   display: flex;
   justify-content: start;
@@ -392,7 +434,7 @@ div.a {
   /* .sel{
     width: 40%!important;
   } */
-  .myCard{
+  .myCard {
     display: flex !important;
     justify-content: center !important;
     margin: auto !important;

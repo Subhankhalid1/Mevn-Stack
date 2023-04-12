@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-9 col-sm-12 col-12 ">
      
-        <RightSide :products="products" />
+        <RightSide />
     </div>
 </div>
 </div>

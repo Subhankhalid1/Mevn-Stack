@@ -35,7 +35,7 @@ exports.signup = (req, res) => {
               {
                 data: user._id,
               },
-              jwtSecret,
+              process.env.JWTSecret,
               {expiresIn: '1d'}
             );
             return res.status(201).json ({
@@ -64,7 +64,7 @@ exports.signup = (req, res) => {
             {
               data: user._id,
             },
-            jwtSecret,
+            process.env.JWTSecret,
             {expiresIn: '1d'}
           );
           return res.status(200).json ({

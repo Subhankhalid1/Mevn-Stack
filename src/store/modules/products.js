@@ -1,9 +1,10 @@
 // import axios from "axios";
 // import api from '../../common/apis';
 // import {  filterBetweenPrice,searchFilter } from "../../common/apis";
-import axios from 'axios';
-import { store } from '../index';
+import axios from "axios";
+import { store } from "../index";
 import { fetchCategories } from "@/services/category";
+import {cartGetItems,cartPostItem,cartDeleteItem,cartPostUpdate} from "@/services/cart";
 import {
   getAllProducts,
   ProductsByCategory,
@@ -45,13 +46,12 @@ const actions = {
 
   async productsByCategory({ commit }, _id) {
     console.log("_id-------->", _id[0]);
-    
-    if (_id[0]==undefined) {
+
+    if (_id[0] == undefined) {
       const response = await getAllProducts();
       commit("setProducts", response.data.products);
       console.log(response.data);
     } else {
-     
       const response = await ProductsByCategory(_id[0]);
       // await api.post(ProductsByCategory,{category_name:_id});
       commit("setProducts", response.data.data);
@@ -62,7 +62,6 @@ const actions = {
   async categoryWithName({ commit }, item) {
     if (item) {
       const response = await filterProductsByCategory(item);
-      // api.get(`${searchFilter}/${item.search.toLowerCase()}?category=${item.cateSelect}`);
       commit("setProducts", response.data);
       console.log(response.data);
     } else {
@@ -76,9 +75,6 @@ const actions = {
     const { minPrice, maxPrice } = searchItem;
     if (searchItem) {
       const response = await filterProductByPrice(minPrice, maxPrice);
-      // api.get(
-      //   `${filterBetweenPrice}?minPrice=${minPrice}&maxPrice=${maxPrice}`
-      // );
       commit("setProducts", response.data);
       console.log(searchItem, response.data);
     }
@@ -86,32 +82,67 @@ const actions = {
 
   async searchProductByMoq({ commit }, searchItem) {
     const response = await searchFilterOnMOQ(searchItem);
-    // api.get(
-    //   `${searchFilter}/${searchItem}`
-    // );
     commit("setProducts", response.data);
     console.log(searchItem, response.data);
-    //  else {
-    //   const response = await axios.get(getAllProducts);
-    //   commit("setProducts", response.data);
-    //   console.log(response.data);
-    // }
+ 
   },
-  async setCartProducts({ commit }, item) {
-    console.log("item---->",item._id)
-   
-    console.log("state.cart--->")
-    commit("setCart", item);
+
+  async removeCartProduct({ commit, rootState }, productId) {
+    const token = rootState.user.token;
+    if (token) {
+      const headers = { token };
+      const data = { _id: productId };
+      const response = await cartDeleteItem({data,headers})
+      // axios.post(
+      //   `http://localhost:5000/api/cart/delete`,
+      //   data,
+      //   { headers }
+      // );
+
+      if (response) {
+        commit("removeFromCart", productId);
+      }
+    }
   },
-  async removeCartProduct({ commit }, product) {
-    commit("removeFromCart", product);
-  },
-  async increaseQuantity({ commit }, product) {
-    commit("increaseCartQTY", product);
-  },
-  async decreaseQuantity({ commit }, product) {
+
+  increaseQuantity: debounce(async ({ commit, rootState }, product) => {
+    const token = rootState.user.token;
+    const headers = { token };
+    // console.log("increase=====> qty", product?.quantity);
+    const data = {
+      _id: product._id,
+      quantity: product?.quantity,
+    };
+    const response = await cartPostUpdate({data, headers})
+    // axios.post(
+    //   "http://localhost:5000/api/cart/update",
+    //   data,
+    //   { headers }
+    // );
+    if (response) {
+      commit("increaseCartQTY", product);
+    }
+  }, 500),
+
+  decreaseQuantity: debounce(async ({ commit, rootState }, product) => {
+    const token = rootState.user.token;
+    const headers = { token };
+    // console.log("decrease=====> qty", product?.quantity);
+    const data = {
+      _id: product._id,
+      quantity: product?.quantity,
+    };
+    const response = await cartPostUpdate({data,headers})
+    // axios.post(
+    //   "http://localhost:5000/api/cart/update",
+    //   data,
+    //   { headers }
+    // );
+    if(response){
     commit("decreaseCartQTY", product);
-  },
+    }
+  }, 500),
+
   async searchCategories({ commit }, searchCategory) {
     if (searchCategory.target.value !== "") {
       const filterData = state.categories.filter((item) => {
@@ -160,66 +191,59 @@ const actions = {
       console.log(response.data);
     }
   },
-  async postCartData({commit},userInfo){
-    console.log("token watch----->", userInfo.token)
-    // console.log("token watch----->", userInfo.user._id)
-    const itemId=state.cart.map((item, ind)=>item._id)
-    console.log("state.cart--->",itemId)
-    // var ID
-    // for(const id of itemId){
-    //   console.log("single cart ID--->",id)
-    //   ID=id
-    // }
+  async postCartData({ commit, rootState }, pId) {
+    const token = rootState.user.token;
 
-    
-  
-    // const token = getters.u_token;
-    const {token} = userInfo;
-    if(token){
-    const headers = { token }
-    console.log("header----->", headers)
-  
-    // const data={
-    //   quantity:state.cart.quantity,
-    //   product:state.cart
-    // }
-    // const response = await axios.post('http://localhost:5000/api/cart/create',data, { headers })
-    // commit("setCart",response?.data?.data)
-    // console.log("Cart response ----->",response.data)
-  }
-    
-    else{
-      commit("setCart",[])
+    if (token) {
+      const headers = { token };
+      console.log("header----->", headers);
+
+      const data = {
+        productId: pId._id,
+        quantity: 1,
+      };
+      const response = await cartPostItem({data, headers})
+
+      if (response) {
+        // console.log("Cart response ----->", response.data);
+        commit("addToCart", response.data.data);
+      }
+    } else {
+      commit("setCart", { product: [] });
     }
   },
 
-  async fetchCartData({commit},token){
-    console.log("token from fetchCartData----->", token)
-    // const token = getters.u_token;
-   
-    const headers = { token }
-    console.log("header----->", headers)
-    if(token){
-  
-    const response = await axios.get('http://localhost:5000/api/cart', { headers })
-    commit("setCart",response?.data)
-   
-    console.log("state.cart ----->",state.cart)
-  }
-    
-    else{
-      commit("setCart",[])
+  async fetchCartData({ commit, rootState }) {
+    const token = rootState.user.token;
+    console.log("token from fetchCartData----->", token);
+
+    const headers = { token };
+    console.log("header----->", headers);
+    if (token) {
+      const response = await cartGetItems(headers)
+      // axios.get("http://localhost:5000/api/cart", {
+      //   headers,
+      // });
+      console.log(response.data);
+      commit("setCart", { product: response?.data.data, isNew: true });
+
+      console.log("state.cart data----->", state.cart);
+    } else {
+      commit("setCart", { product: [] });
     }
-  }
-
-
+  },
 };
 
 const mutations = {
   setProducts: (state, products) => (state.products = products),
   setCategories: (state, categories) => (state.categories = categories),
   setLoading: (state, value) => (state.loading = value),
-  setCart: (state, product) => {
+  setCart: (state, { product, isNew }) => {
+    if (isNew) {
+      state.cart = product;
+      // console.log(product);
+      return;
+    }
     const index = state.cart.findIndex((p) => p._id === product._id);
     console.log("index====>", index);
     if (index === -1) {
@@ -227,10 +251,12 @@ const mutations = {
     } else {
       state.cart[index].quantity++;
     }
-    // state.cart.push(product)
   },
-  removeFromCart: (state, product) => {
-    const index = state.cart.findIndex((p) => p._id === product._id);
+  addToCart: (state, payload) => {
+    state.cart.unshift(payload);
+  },
+  removeFromCart: (state, pId) => {
+    const index = state.cart.findIndex((p) => p._id === pId);
     console.log("index====>", index);
     if (index !== -1) {
       state.cart.splice(index, 1);

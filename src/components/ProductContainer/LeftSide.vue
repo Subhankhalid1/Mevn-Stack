@@ -62,8 +62,6 @@
       >
         <div class="d-flex" v-if="index < limit_by" style="cursor: pointer">
           <span class="px-2">
-            <!-- @click="toggleCheckbox" -->
-            <!-- @click="productsByCategory(product._id)" :key="product" -->
             <input
               type="checkbox"
               :value="product._id"
@@ -92,7 +90,7 @@
 <script>
 import { ref } from "vue";
 import { mapGetters, mapActions } from "vuex";
-// import SearchBox from "../SearchBox.vue";
+
 export default {
   data() {
     return {
@@ -139,20 +137,6 @@ export default {
       const checkedId=this.checkedItems
        console.log("checkedId", checkedId)
       this.productsByCategory(checkedId)
-    
-      // const isChecked = this.checkedItems.includes(item);
-      // console.log("item--------->", isChecked, item);
-
-      // if (isChecked) {
-      //   this.checkedItems = this.checkedItems.filter(
-      //     (checkedItem) => checkedItem !== item
-      //   );
-      
-      //   this.fetchProducts();
-        
-      // } else {
-      //   this.checkedItems.push(item);
-      // }
     },
   },
   computed: {

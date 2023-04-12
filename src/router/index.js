@@ -4,6 +4,7 @@ import AboutView from "../views/AboutView";
 import Cart from "../components/CartPage/Cart";
 import Login from "../components/Registration/Login"
 import Signup from "../components/Registration/Signup"
+import Favourite from "../components/FavouritePage/Favourite"
 const routes = [
   {
     path: "/",
@@ -30,6 +31,12 @@ const routes = [
     name: "/signup",
     component: Signup,
   },
+  {
+    path: "/favourite",
+    name: "/favourite",
+    component: Favourite,
+  },
+
 
 ];
 

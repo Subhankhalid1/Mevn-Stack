@@ -6,14 +6,14 @@ const cors = require("cors");
 const DB = require("./config/db");
 // require("dotenv").config();
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
+const decodeUser = require("./middleware/authMiddleware");
 dotenv.config({
-    path: './.env'
+  path: "./.env",
 });
 
-
-process.on('uncaughtException', err => {
-  console.log('UNCAUGHT EXCEPTION!!! shutting down...');
+process.on("uncaughtException", (err) => {
+  console.log("UNCAUGHT EXCEPTION!!! shutting down...");
   console.log(err.name, err.message);
   process.exit(1);
 });
@@ -44,7 +44,8 @@ app.use(express.json({ extended: false }));
 app.use("/api/product", require("./routes/product"));
 app.use("/api/category", require("./routes/category"));
 app.use("/api/user", require("./routes/user"));
-app.use("/api/cart", require("./routes/cart"));
+app.use("/api/cart", decodeUser, require("./routes/cart"));
+app.use("/api/favourite", decodeUser, require("./routes/favourite"));
 
 app.get("/", (req, res) => {
   res.json(`BuyHive Server is Running Successfully.`);
@@ -58,13 +59,10 @@ app.listen(PORT, () => {
   console.log(`BuyHive Server App Listening on port ${PORT}`);
 });
 
-
-
-
-process.on('unhandledRejection', err => {
-  console.log('UNHANDLED REJECTION!!!  shutting down ...');
+process.on("unhandledRejection", (err) => {
+  console.log("UNHANDLED REJECTION!!!  shutting down ...");
   console.log(err.name, err.message);
   server.close(() => {
-      process.exit(1);
+    process.exit(1);
   });
 });

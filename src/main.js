@@ -16,10 +16,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faCartShopping, faUser, faSearch, faBars, faCaretDown, faTableList, faTableColumns, faCaretRight, faCaretLeft, faListUl, faGrip, faChevronLeft, faChevronRight, faBasketShopping, faTableCellsLarge, faTrash, faMinus, faPlus, } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faUser, faSearch, faBars, faCaretDown, faTableList, faTableColumns, faCaretRight, faCaretLeft, faListUl, faGrip, faChevronLeft, faChevronRight, faBasketShopping, faTableCellsLarge, faTrash, faMinus, faPlus, faHeart, } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faUser, faCartShopping,faSearch,faBars,faCaretDown, faTableList, faTableColumns,faTableCellsLarge, faCaretRight, faCaretLeft, faListUl, faGrip,faChevronLeft, faChevronRight,faBasketShopping,faTrash, faMinus,faPlus  )
+library.add(faUser, faCartShopping,faSearch,faBars,faCaretDown, faTableList, faTableColumns,faTableCellsLarge, faCaretRight, faCaretLeft, faListUl, faGrip,faChevronLeft, faChevronRight,faBasketShopping,faTrash, faMinus,faPlus,faHeart  )
 
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(store).use(router).use(Toastify).use(plugin, defaultConfig).mount('#app')

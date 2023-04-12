@@ -1,71 +1,84 @@
 const cartModel = require("../models/cartModel");
-const User=require("../models/userModel")
-const Product=require("../models/productModel")
-const auth =require("../middleware/authMiddleware")
+const { successResponse, failureResponse } = require("../helpers/response");
+
 exports.cart = async (req, res) => {
-    const _decode=auth(req,res)
-    if(_decode){
-      try {
-        const { productId, quantity } = req.body
-    
-        // Check if the user exists
-        // const user = await User.findById(userId)
-        // if (!user) {
-        //   return res.status(404).json({ message: 'User not found' })
-        // }
-    
-        // Check if the product exists
-        // const product = await Product.findById(productId)
-        // if (!product) {
-        //   return res.status(404).json({ message: 'Product not found' })
-        // }
-    
-        // Check if the product is already in the cart
-        const cart = await cartModel.findOne({ 'products.product': productId })
-        if (cart) {
-          // If the product is already in the cart, update the quantity
-          await cartModel.updateOne(
-            { 'products.product': productId },
-            { $inc: { 'products.$.quantity': quantity } }
-          )
-        } else {
-          // If the product is not in the cart, add it
-          await cartModel.create({ products: [{ product: productId, quantity }] })
-        }
-    
-        res.status(201).json({ message: 'Product added to cart' })
-      } catch (error) {
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
-      }
-    
-}
+  console.log("req.user---->", req);
+  try {
+    const { productId, quantity } = req.body;
+
+    // Check if the product is already in the cart
+    const cart = await cartModel.findOne({
+      product: productId,
+      user: req.user._id,
+    });
+    const product = cart
+      ? await cartModel.updateOne(
+          { product: productId },
+          { $inc: { quantity: quantity } }
+        )
+      : await cartModel.create({
+          product: productId,
+          quantity,
+          user: req.user._id,
+        });
+
+    res.status(201).json(successResponse(product, "Product added to cart"));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(failureResponse("Server error"));
+  }
 };
 exports.getCartData = async (req, res) => {
-    const _decode=auth(req,res)
-    if(_decode){
-  // await cartModel.find({ user: req.body._id })
-  // .sort({ createdAt: 1 })
-  // .exec((error, data) => {
-  //   if (error) throw error;
-  //   if (data)
-  //     return res.status(200).json({status:true, message: "success", data });
-  // });
-  // const { userId } = req.params;
-  
   try {
-    const cart = await cartModel.find().populate('products.product');
-    
-    if (!cart) {
-      return res.status(404).json({ error: 'Cart not found.' });
-    }
-    
-    res.status(200).json(cart);
+    const cart = await cartModel
+      .find({ user: req.user._id })
+      .populate("product")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(successResponse(cart));
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'An error occurred while getting the cart.' });
+    res
+      .status(500)
+      .json(failureResponse("An error occurred while getting the cart."));
   }
-}
-} 
+};
+exports.deleteCartProduct = async (req, res) => {
+  try {
+    const cart = await cartModel.findOneAndDelete({
+      _id: req.body._id,
+      user: req.user._id,
+    });
+    res.status(200).json(successResponse(cart, "Product Deleted Now!"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        failureResponse("An error occurred while deleting the cart product.")
+      );
+  }
+};
 
- 
+exports.updateCartQty = async (req, res) => {
+  try {
+    const { _id, quantity } = req.body;
+    const productObject = {};
+    if (quantity) {
+      productObject.quantity = quantity;
+    }
+    const cart = await cartModel.findOneAndUpdate(
+      { _id: _id },
+      { $set: productObject },
+      { new: true }
+    );
+    res.status(203).json(successResponse(cart, "Product updated Now!"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        failureResponse(
+          "An error occurred while updating the cart product quantity."
+        )
+      );
+  }
+};
