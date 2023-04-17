@@ -1,7 +1,4 @@
-// export const getAllProducts = `product/getAllProducts`;
-// export const ProductsByCategory=`product/ProductsByCategory`;
-// export const filterBetweenPrice=`product/filterBetweenPrice`
-// export const searchFilter=`product/filterProducts`
+
 
 import api from "@/common/apis";
 

@@ -79,7 +79,7 @@
                     <div
                       class="col-md-1 col-lg-1 col-xl-1 text-end"
                       style="cursor: pointer"
-                      @click="removeFavProduct(cart._id)"
+                      @click="removeFavProduct(cart?.product._id)"
                     >
                    
                       <font-awesome-icon

@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import LefSide from "./LeftSide.vue"
-import RightSide from "./RightSide.vue"
+import LefSide from "./LeftComponent/LeftSide.vue"
+import RightSide from "./RightComponent/RightSide.vue"
 
 
 export default{

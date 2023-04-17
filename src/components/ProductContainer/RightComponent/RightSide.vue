@@ -79,78 +79,14 @@
     class="cont col-md-12 col-sm-12 d-flex m-auto justify-content-start flex-wrap"
   >
     <!-- Row -->
-    <div
-      class="card m-2 d-flex m-auto myCard1"
+    <ProductCard
       v-for="product in _filter"
       :key="product.id"
-      style="width: 100%; height: auto"
-      @mouseover="hov = true"
-      @mouseleave="hov = false"
-      v-if="toggleShowRow"
-    >
-      <div class="d-flex col-md-12 col-sm-12">
-        <img
-          class="px-2 py-2 m-2 d-flex justify-content-start col-md-2 col-sm-12"
-          src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
-        />
-        <div
-          class="col-md-10 col-sm-12 px-2 d-block m-auto text-center justify-content-center"
-        >
-          <p class="title text-center">{{ product.product_name }}</p>
-          <p class="moq">MOQ: {{ product.display_moq }} Pieces</p>
-          <h6 class="price fw-bold pb-3">$ {{ product.price }} /piece</h6>
-          <div class="mydivoutermulti1 d-flex justify-content-start">
-            <button
-              type="button"
-              class="buttonoverlapmulti1 btn btn-info d-flex m-auto justify-content-center align-items-center"
-            >
-              Add To Cart
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Columns Card -->
-    <div
-      class="card m-2 p-2 mb-3 myCard d-flex justify-content-start mt-3"
-      v-for="product in _filter"
-      style="width: 20.7rem; height: auto"
-      @mouseover="hov = true"
-      @mouseleave="hov = false"
-      v-else="toggleShowRow"
-    >
-      <img
-        class="card-img-top p-2 d-flex m-auto justify-content-center align-items-center col-md-12 col-sm-12"
-        src="http://localhost:5000/uploads/products/1678694895391_ image1.jpeg"
-      />
-
-      <!-- :src="getImageUrl(product)" -->
-      <span class="d-flex justify-content-between"
-        ><p class="title">{{ product.product_name }}</p>
-        <span @click="handleFavouriteList(product)" style="cursor: pointer"
-          ><font-awesome-icon
-            icon="fa-heart"
-            :style="{ color: product.isLiked ? 'red' : 'black' }"
-            class="text-gray-300 fa-2x d-flex m-1"
-          />
-        </span>
-      </span>
-
-      <p class="moq">MOQ: {{ product.display_moq }} Pieces</p>
-      <h6 class="price fw-bold pb-3">$ {{ product.price }} /piece</h6>
-      <div
-        class="mydivoutermulti d-flex justify-content-center"
-        @click="handleCartData(product)"
-      >
-        <button
-          type="button"
-          class="buttonoverlapmulti btn btn-info"
-          style="border-radius: 10px"
-        >
-          Add To Cart
-        </button>
-      </div>
-    </div>
+      :product="product"
+      @handleCartData="handleCartData"
+      @handleFavouriteList="handleFavouriteList"
+      :toggleShowRow="toggleShowRow"
+    />
   </div>
   <div
     class="d-flex m-auto mt-5 pt-2 justify-content-center"
@@ -164,6 +100,7 @@
 import { ref } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { serverURL } from "@/common/apis";
+import ProductCard from "./Card.vue";
 
 export default {
   // props: ["products"],
@@ -171,13 +108,16 @@ export default {
     return {
       indexOfLastPost: "",
       currentPage: 1,
-      postsPerPage: 6,
+      postsPerPage: 9,
       _filter: "",
       indexOfFirstPost: "",
       count: 1,
       pages: [],
       isLiked: false,
     };
+  },
+  components: {
+    ProductCard,
   },
   setup() {
     const hov = ref(false);
@@ -213,6 +153,7 @@ export default {
       "fetchCartData",
       "postFavData",
       "removeFavProduct",
+      "getFavData",
     ]),
 
     handlePagination() {
@@ -223,11 +164,6 @@ export default {
         this.indexOfFirstPost,
         this.indexOfLastPost
       );
-
-      //   for (const i = this.indexOfFirstPost; i <= this.indexOfLastPost; i++) {
-      //   this.pages.push(i)
-      //   console.log("pages--------->",this.pages.push(i))
-      // }
     },
 
     handleCountAdd() {
@@ -257,35 +193,31 @@ export default {
     },
     handleFavouriteList(product) {
       product.isLiked = !product.isLiked;
-     
-      const index=this.allfavProducts.findIndex((item) => item.product._id === product._id)
+      // console.log("checked allproducts",this.allfavProducts.map(item=>item.product))
+      const index = this.allfavProducts.findIndex(
+        (item) => item.product._id === product._id
+      );
+      console.log("index--->handleFav", index);
       if (index !== -1) {
-        product.isLiked=false
+        product.isLiked = false;
         this.removeFavProduct(product._id);
       } else {
         this.postFavData(product);
+        this.getFavData();
       }
     },
   },
   computed: {
     ...mapGetters(["allProducts", "u_token", "allfavProducts"]),
-    isLiked(){
-      return this.allfavProducts.find((item) => item.product._id === this.product._id)
-    }
   },
   created() {
     this.fetchProducts();
     this.handlePagination();
   },
-
-  // onMounted(){
-  //   this.filterProducts(this.cateSelect)
-  // }
 };
 </script>
 
 <style scoped>
-
 .iconBox {
   width: 40px;
   height: 40px;

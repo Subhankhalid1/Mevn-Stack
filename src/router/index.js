@@ -5,6 +5,7 @@ import Cart from "../components/CartPage/Cart";
 import Login from "../components/Registration/Login"
 import Signup from "../components/Registration/Signup"
 import Favourite from "../components/FavouritePage/Favourite"
+import CheckOut from "../components/CheckOut/CheckOutPage"
 const routes = [
   {
     path: "/",
@@ -35,6 +36,11 @@ const routes = [
     path: "/favourite",
     name: "/favourite",
     component: Favourite,
+  },
+  {
+    path: "/checkout",
+    name: "/checkout",
+    component: CheckOut,
   },
 
 

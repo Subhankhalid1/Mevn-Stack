@@ -41,7 +41,7 @@ exports.getFavData = async (req, res) => {
 exports.deleteFavProduct = async (req, res) => {
   try {
     const favourite = await favModel.findOneAndDelete({
-      _id: req.body._id,
+      "product._id": req.body._id,
       user: req.user._id,
     });
     res

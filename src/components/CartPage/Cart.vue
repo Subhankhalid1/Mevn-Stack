@@ -91,13 +91,22 @@
                 </div>
               </div>
             </div>
+            <div class="mt-3 mb-3 d-flex justidy-content-start">
+         
+            <div class="card-body d-flex m-auto w-25">
+              <h5 class="fw-bold">Total Amount: {{ totalPrice  }}</h5>
+            </div>
+         
           </div>
-          <div class="" v-if="allCartProducts.length">
+          </div>
+          <div class="" v-if="allCartProducts.length" @click="goToCheckout">
+            <!-- <router-link to="/checkout"> -->
             <div class="card-body d-flex m-auto w-25">
               <button type="button" class="btn btn-warning btn-block btn-lg">
-                Proceed to Pay
+               Check out now!
               </button>
             </div>
+          <!-- </router-link> -->
           </div>
         </div>
       </div>
@@ -114,10 +123,21 @@
 </template>
 
 <script>
+
 import { mapGetters, mapActions } from "vuex";
 
+
 export default {
-  computed: { ...mapGetters(["allCartProducts", "u_token"]) },
+  computed: { ...mapGetters(["allCartProducts", "u_token"]),
+
+  totalPrice() {
+      let total = 0;
+      this.allCartProducts.forEach((product) => {
+        total += product?.product.price * product.quantity;
+      });
+      return total;
+    },
+},
   created() {
     if (this.u_token) {
       this.fetchCartData(this.u_token);
@@ -130,6 +150,10 @@ export default {
       "decreaseQuantity",
       "fetchCartData",
     ]),
+    goToCheckout() {
+      // Set total price as query parameter and navigate to checkout page
+      this.$router.push({ name: '/checkout', query: { totalPrice: this.totalPrice } });
+    },
   },
 };
 </script>
