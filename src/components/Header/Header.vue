@@ -263,7 +263,7 @@
             </router-link>
           </div>
           <div v-if="u_token" class="submit m-2 p-2">
-            <router-link to="/login">
+            <!-- <router-link to="/login">
               <button class="button1 d-flex" @click="logout()">
                 <font-awesome-icon
                   icon="fa-user "
@@ -272,7 +272,43 @@
 
                Logout
               </button>
-            </router-link>
+            </router-link> -->
+            <div class="dropdown button1 d-flex">
+        <a
+          class="dropdown-toggle d-flex align-items-center hidden-arrow"
+          href="#"
+          id="navbarDropdownMenuAvatar"
+          role="button"
+          data-mdb-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+            class="rounded-circle"
+            height="25"
+            alt="Black and White Portrait of a Man"
+            loading="lazy"
+          />
+        </a>
+        <ul
+          class="dropdown-menu dropdown-menu-end"
+          aria-labelledby="navbarDropdownMenuAvatar"
+        >
+          <li>
+            <a class="dropdown-item disabled" href="#">My profile</a>
+          </li>
+          <li>
+            <router-link to="/order">
+            <a class="dropdown-item" href="#">My Order</a>
+          </router-link>
+          </li>
+          <li  @click="logout()">
+           <router-link to="/login">
+            <a class="dropdown-item" href="#">Logout Now</a>
+           </router-link>
+          </li>
+        </ul>
+      </div>
           </div>
           <div v-else class="submit m-2 p-2">
             <router-link to="/login">

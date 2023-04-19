@@ -184,7 +184,7 @@
           Price After Discount:
             </div>
             <div class="form-outline flex-fill yellow fw-bold">
-           <h3>${{ totalPrice }}</h3>
+           <h3>${{ totalPrice  }}</h3>
             </div>
            
           </div>
@@ -236,7 +236,7 @@ export default {
     },
     handleCheckout(){
       const data={
-        cardNumber:this.cardNumber,
+      cardNumber:this.cardNumber,
       cardName:this.cardName,
       expiry:this.expiry,
       cvv:this.cvv,
@@ -244,20 +244,20 @@ export default {
       city:this.city,
       state:this.state,
       zipCode:this.zipCode,
-      payment:this.totalPrice,
-      user:this.userInfo?.user?._id,
+      payment:this.totalPrice||this.$route.query.totalPrice,
       couponCode:this.code
      
       }
-      this.postCheckoutData(data)
-      this.cardName=""
-      this.cardNumber=""
-      this.cvv=""
-      this.streetAddress=""
-      this.zipCode=""
-      this.city=""
-      this.state=""
-      this.expiry=""
+      this.postCheckoutData(data);
+      
+      // this.cardName=""
+      // this.cardNumber=""
+      // this.cvv=""
+      // this.streetAddress=""
+      // this.zipCode=""
+      // this.city=""
+      // this.state=""
+      // this.expiry=""
       
 
     }

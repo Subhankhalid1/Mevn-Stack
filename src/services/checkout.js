@@ -1,3 +1,4 @@
 import api from "@/common/apis";
 
-export const checkout = (data) => api.post('checkout/create', data)
+export const checkout = ({ data, headers }) =>
+  api.post("checkout/create", data, { headers });

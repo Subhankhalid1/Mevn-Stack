@@ -16,6 +16,10 @@ const checkoutSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "userSchema",
     },
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "cartSchema",
+    },
   },
   { timestamps: true }
 );
