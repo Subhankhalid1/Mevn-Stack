@@ -1,10 +1,10 @@
 <template>
      <div class="card m-3" style="width: 27.5rem">
         <div class="card-body">
-          <!-- <h5 class="card-title">Order #: {{  index }}</h5> -->
+          <h5 class="card-title">Order #: {{  index+1 }}</h5>
 
           <p class="card-text text-primary mt-2 mb-3">
-            <span class="text-dark">Order Created: </span
+            <span class="text-dark">Order Created At: </span
             >{{ new Date(order?.createdAt).toLocaleString() }}
           </p>
 
@@ -20,26 +20,26 @@
           </div>
           <p class="card-text text-dark mt-2 mb-4">Order_ID: {{ order._id }}</p>
 
-          <a href="#" class="btn btn-primary mt-2"  @click="$emit('toggleShow', order._id)"
+          <a href="#" class="btn btn-primary mt-2"  @click="(e)=>toggleShow(show)"
             >See Order Detail</a
           >
         </div>
         <div
-          v-if="show"
+        v-if="show"
           class="d-flex m-2 justify-content-between"
           v-for="(product, index) in order.products"
           :key="index"
         >
-        {{ show }}
+        <!-- {{ show }} -->
           <span class="text-dark"
-            ><span class="text-primary">#</span>{{ index + 1 }}</span
+            ><span class="text-primary">Product #: </span>{{ index + 1 }}</span
           >
           <span
             ><span class="text-danger">Slug: </span
             >{{ product?.product_name }}</span
           >
           <span
-            ><span class="text-success">Price: </span>${{
+            ><span class="text-success">Cost: </span>${{
               product?.price
             }}</span
           >
@@ -52,14 +52,27 @@ export default{
     name: "OrderCard",
   props: {
     order:Object,
-    show:Boolean
+    index:Number,
+    // show:Boolean,
+    selectedItem:Array
     
   },
     data(){
         return{
-
+          show: false,
         }
-    }
+    },
+    methods: {
+   
+    toggleShow(show) {
+   if(show===false){
+    this.show=true
+   }
+   else{
+    this.show=false
+   }
+    },
+  },
 }
 
 </script>

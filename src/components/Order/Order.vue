@@ -2,9 +2,11 @@
   <div class="mt-5 d-flex m-auto p-2 flex-wrap" style="width: 78%">
     <!-- {{ allOrders }} -->
    
-        <OrderCard v-for="order in allOrders" :key="order._id" 
+        <OrderCard v-for="(order, ind) in allOrders" :key="ind" 
         :order="order" 
-        :show="show" 
+        :index="ind"
+        :selectedItem="selectedItem" 
+        :show="show"
         @toggleShow="toggleShow" 
         />
       <!-- <div class="card m-3" style="width: 27.5rem">
@@ -63,6 +65,7 @@ export default {
   data() {
     return {
       show: false,
+      selectedItem:null
     };
   },
   components:{
@@ -75,14 +78,14 @@ OrderCard
   methods: {
     ...mapActions(["getOrders"]),
     toggleShow(id) {
-         if(id){
-      this.show = true;
-        }
-        else{
-            this.show = false;
-        }
-
-        console.log("id", id)
+    const getId= this.allOrders.find(order=>order._id===id)
+    if(id){
+    this.selectedItem=getId.products
+    this.show=true
+    }
+    else{
+      this.show=false
+    }
     },
   },
 };
