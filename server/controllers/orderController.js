@@ -4,17 +4,7 @@ const orderModel = require("../models/orderModel");
 
 exports.order = async (req, res) => {
   try {
-    // const pipeline = [
-    //   {
-    //     $lookup: {
-    //       from: "orderdetailschemas",
-    //       localField: "_id",
-    //       foreignField: "order",
-    //       as: "product"
-    //     }
-    //   },
-      
-    // ];
+   
     const pipeline = [
       {
         $lookup: {

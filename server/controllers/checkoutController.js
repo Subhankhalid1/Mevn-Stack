@@ -65,8 +65,8 @@ exports.checkout = async (req, res) => {
 
 
      if(detail_order){
-    //     const result = await cartModel.deleteMany({ user: req.user._id });
-    // console.log(`Deleted ${result.deletedCount} items from cart`);
+        const result = await cartModel.deleteMany({ user: req.user._id });
+    console.log(`Deleted ${result.deletedCount} items from cart`);
      }
 
     if (save) {
@@ -81,10 +81,6 @@ exports.checkout = async (req, res) => {
         );
     }
   
-    // if(save){
-    //  const result = await cartModel.deleteMany({ user: req.user._id });
-    // console.log(`Deleted ${result.deletedCount} items from cart`);
-    // }
    
   } catch (err) {
     res.status(500).json(failureResponse("server error has been occurred."));
