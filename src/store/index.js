@@ -7,6 +7,7 @@ import cart from "./modules/cart";
 import category from "./modules/category"
 import checkout from "./modules/coupon"
 import order from "./modules/order"
+import contact from "./modules/contact"
 
 // In order to retain data in Vuex vuex-persistedstate
 export default new Vuex.Store({
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     cart,
     category,
     checkout,
-    order
+    order,
+    contact
   },
   plugins: [createPersistedState({
       storage: window.sessionStorage,

@@ -49,6 +49,7 @@ app.use("/api/favourite", decodeUser, require("./routes/favourite"));
 app.use("/api/coupon", decodeUser,require("./routes/coupon"));
 app.use("/api/checkout",decodeUser, require("./routes/checkout"));
 app.use("/api/order",decodeUser, require("./routes/order"));
+app.use("/api/query",require("./routes/query"));
 app.get("/", (req, res) => {
   res.json(`BuyHive Server is Running Successfully.`);
 });

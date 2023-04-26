@@ -224,26 +224,22 @@
           </li>
 
           <li class="nav-item dropdown">
+            <router-link to="/contactus">
             <a
               class="nav-link dropdown-toggle"
               href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
             >
-              AboutUs
+              ContactUs
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            </router-link>
+            <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li class="nav-item">
                 <a class="nav-link pt-2" href="#">Our Story</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link pt-2" href="#">How to Buy</a>
               </li>
-              <!-- <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-            </ul>
+            </ul> -->
           </li>
         </ul>
         <div class="d-flex justify-content-end">
