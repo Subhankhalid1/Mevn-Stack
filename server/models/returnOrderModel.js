@@ -12,7 +12,7 @@ const returnSchema = new mongoose.Schema(
       ref: "orderSchema",
       required: true,
     },
-    productPic: { type: Array },
+    productPic: { type: String },
     description: { type: String, required: true },
   },
   { timestamps: true }

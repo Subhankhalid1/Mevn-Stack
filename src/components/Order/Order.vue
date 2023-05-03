@@ -1,7 +1,18 @@
 <template>
   <div class="mt-5 d-flex m-auto p-2 flex-wrap" style="width: 78%">
     <!-- {{ allOrders }} -->
-
+<div class="m-auto">
+  <!--Section heading-->
+  <h2 class="h1-responsive font-weight-bold text-center my-4">
+        My Order
+      </h2>
+      <!--Section description-->
+      <p class="text-center w-responsive mx-auto mb-5">
+        In publishing and graphic design, Lorem ipsum is a
+         placeholder text commonly used to demonstrate the visual form of a document or a 
+         typeface without relying on meaningful content.
+      </p>
+</div>
     <OrderCard
       v-for="(order, idx) in allOrders"
       :key="order._id"

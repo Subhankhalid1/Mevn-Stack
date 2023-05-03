@@ -5,7 +5,7 @@ const {returnOrder } = require('../controllers/returnOrderController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./uploads/products");
+        cb(null, "./uploads/returnOrder");
     },
     filename: function (req, file, cb) {
            cb(null,Date.now() + "_ " + file.originalname);
@@ -13,6 +13,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post("/create", upload.any(), returnOrder);
+router.post("/create", upload.single('productPic'), returnOrder);
 
 module.exports = router;

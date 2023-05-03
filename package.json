@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "mdb-ui-kit": "^6.2.0",
+    "usemodal-vue3": "^0.3.7",
     "validatorjs": "^3.22.1",
     "vee-validate": "^4.8.4",
     "vue": "^3.2.47",

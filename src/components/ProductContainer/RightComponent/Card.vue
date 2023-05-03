@@ -36,8 +36,8 @@
       </div>
       <!-- Columns Card -->
       <div
-        class="card m-2 p-2 mb-3 myCard d-flex justify-content-start mt-3"
-        style="width: 20.7rem; height: auto"
+        class="card  m-2 p-1 mb-3 myCard d-flex justify-content-start mt-3"
+        style="width: 20rem; height: auto"
         @mouseover="hov = true"
         @mouseleave="hov = false"
         v-else="toggleShowRow"

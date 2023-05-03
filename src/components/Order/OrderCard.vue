@@ -1,7 +1,11 @@
 <template>
-  <div class="card m-3" style="width: 27.5rem">
+  <div class="card m-3" style="width: 42rem">
     <div class="card-body">
-      <h5 class="card-title">Order #: {{ index + 1 }}</h5>
+      <div class="d-flex justify-content-between">
+        <h6 class="card-title">Order #: {{ index + 1 }}</h6>
+        <h6 class="card-title ">Status: <span  :style="{ color: order?.status[0]?.status? 'green' : 'blue' }" class="fw-bold"> {{ order?.status.length!=0?order.status[0]?.status:"In Progress"}} </span></h6>
+      </div>
+    
 
       <p class="card-text text-primary mt-2 mb-3">
         <span class="text-dark">Order Created At: </span
@@ -26,8 +30,8 @@
     </div>
     <div
       v-if="show"
-      class="d-flex m-2 justify-content-between"
-      v-for="product in order.products"
+      class="d-flex m-2 pb-2 justify-content-between"
+      v-for="(product, index) in order.products"
       :key="product._id"
     >
       <!-- {{ show }} -->
@@ -39,13 +43,23 @@
         >{{ product?.product_name }}</span
       >
       <span><span class="text-success">Cost: </span>${{ product?.price }}</span>
+      <span v-if="order.status[0]?.status">
+      <Modal :visible="false" :variant="success" :product="product._id" :order="order">
+
+      </Modal>
+      </span>
+     
     </div>
   </div>
 </template>
 
 <script>
+import Modal from '../Modal/Modals.vue';
 export default {
   name: "OrderCard",
+  components: {
+    Modal,
+  },
   props: {
     order: Object,
     index: Number,
@@ -53,12 +67,19 @@ export default {
   data() {
     return {
       show: false,
+      showModal: false,
+      
     };
   },
+ 
   methods: {
     toggleShow() {
       this.show = !this.show;
     },
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
+  
   },
 };
 </script>

@@ -198,7 +198,7 @@
 
 <script>
 import { mapGetters,mapActions } from "vuex";
-import modal from "../modal/modal.vue"
+
 
 export default {
   data() {
