@@ -7,7 +7,12 @@ const orderSchema = new mongoose.Schema(
       ref: "userSchema",
       required: true,
     },
-    total:{type:Number}
+    total:{type:Number},
+    // status: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "orderStatusSchema",
+    //   required: true,
+    // },
 
   },
   { timestamps: true }

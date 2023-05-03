@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const {order} = require('../controllers/orderController');
+const {order,orderStatus} = require('../controllers/orderController');
 
 
+router.post("/orderStatus", orderStatus);
 router.get("/", order);
-
 
 
 

@@ -35,27 +35,10 @@ exports.getAllCoupon = async (req, res) => {
 };
 
 exports.applyCouponOnPayment = async (req, res) => {
-  let { couponCode, totalAmount, userId } = req.body;
+  let { couponCode } = req.body;
 
   try {
-    // Find the coupon in the database
-    // let coupon = await  couponModel.findOne({ code: couponCode });
-
-    // if (!coupon) {
-    //   return res.status(400).json(failureResponse("Invalid Coupon Code."));
-    // }
-
-    // if (coupon.usageCount >= coupon.maxUsageCount) {
-    //   return res.status(400).json(failureResponse("Coupon has reached maximum usage count"));
-    // }
-    // let discount = totalAmount * coupon.discountPercentage / 100;
-    // totalAmount -= discount;
-
-    // let payment = new paymentModel({totalAmount});
-    // await payment.save();
-    // coupon.used += 1;
-    // await coupon.save();
-    // res.json(successResponse(payment, "Success"));
+    
     const cart = await cartModel
       .find({ user: req.user._id })
       .populate("product");

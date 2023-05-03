@@ -17,7 +17,6 @@ exports.checkout = async (req, res) => {
     zipCode,
     payment,
     couponCode,
-    total
   } = req.body;
 
   try {

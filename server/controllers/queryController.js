@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-
+const { successResponse, failureResponse } = require("../helpers/response");
 exports.postQuery = (req, res) => {
     const {
       name,
@@ -20,7 +20,7 @@ exports.postQuery = (req, res) => {
     const mailOptions = {
       from: email,
       to: 'rsubhankhalid@gmail.com',
-      subject: 'Email by BuyHive)',
+      subject: 'Email by BuyHive',
       html: `
             <p>Name: ${name}</p>
             <p>Email: ${email}</p>
@@ -31,7 +31,7 @@ exports.postQuery = (req, res) => {
   
     transporter.sendMail (mailOptions, function (error, info) {
       if (error) {
-        return res.status (400).json (error.message);
+        return res.status (400).json (failureResponse(error.message));
       }
       if (info.response) {
         return res.status (200).json ({message: `Thank you for your suggestion! For further assistance, get in touch with us.`});
