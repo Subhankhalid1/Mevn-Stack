@@ -20,15 +20,11 @@ const actions={
         }
     },
     async returnQuery({commit}, data){
-      
+      console.log("data---------->", data)
          const response = await returnOrder(data)
-        // const formData={
-        //     product:data.product,
-        //     order:data.order,
-        //     productPic:data.productPic,
-        //     description:data.description
-        // }
-        // console.log("return order response------>", data.FormData)
+        if(response){
+            console.log(response)
+        }
     }
 
 }

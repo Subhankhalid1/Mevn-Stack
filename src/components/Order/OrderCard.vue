@@ -43,11 +43,17 @@
         >{{ product?.product_name }}</span
       >
       <span><span class="text-success">Cost: </span>${{ product?.price }}</span>
+      <span v-for="item in order.returnOrder">
+        <span v-if="item.product===product?._id" class="text-danger fw-bold">
+          Requested
+        </span>
+      </span>
       <span v-if="order.status[0]?.status">
       <Modal :visible="false" :variant="success" :product="product._id" :order="order">
 
       </Modal>
       </span>
+      
      
     </div>
   </div>

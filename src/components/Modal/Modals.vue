@@ -25,13 +25,13 @@
           <form class="row g-3">
             <div class="col-md-12">
               <label for="inputEmail4" class="form-label d-flex p-1"
-                >Upload an images (Atleast More Than 1)</label
-              >
+                >Upload an image
+              </label>
               <input
                 type="file"
                 class="form-control"
                 id="inputGroupFile02"
-                @change="handleFileUpload"
+                @change="(e) => handleFileUpload(e)"
               />
               <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
             </div>
@@ -70,9 +70,16 @@
       </div>
     </div>
   </div>
-  <button type="button" @click="OpenCloseFunc()" :class="'btn btn-+variant'">
-    Return
+
+  <button
+
+    type="button"
+    @click="OpenCloseFunc()"
+    :class="'btn active btn-+variant'"
+  >
+  Return
   </button>
+
 </template>
 
 <script>
@@ -82,18 +89,17 @@ export default {
   props: {
     visible: Boolean,
     variant: String,
-    product:String,
-    order:Object
+    product: String,
+    order: Object,
   },
   data() {
     return {
       OpenClose: this.visible,
       productPic: null,
-    
-        description: "",
-        order:this.order._id,
-        product:this.product
-    
+
+      description: "",
+      order: this.order,
+      product: this.product,
     };
   },
   methods: {
@@ -111,11 +117,15 @@ export default {
       formData.append("productPic", this.productPic);
 
       formData.append("description", this.description);
-      
 
       console.log("formData---------->", formData);
-      // this.returnQuery(formData)
+      this.returnQuery(formData);
     },
+
+  },
+  computed(){
+// const unique=this.order?.find(item=>item.product===this.product)
+// console.log("uniques---->", unique)
   },
   watch: {
     visible: function (newVal, oldVal) {
